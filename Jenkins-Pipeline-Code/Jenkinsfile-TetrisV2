@@ -74,33 +74,33 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {   
-                        sh 'docker tag tetrisv2 avian19/tetrisv2:${BUILD_NUMBER}'
-                        sh 'docker push avian19/tetrisv2:${BUILD_NUMBER}'
+                        sh 'docker tag tetrisv2 bhanuprakash678910/tetrisv2:${BUILD_NUMBER}'
+                        sh 'docker push bhanuprakash678910/tetrisv2:${BUILD_NUMBER}'
                     }
                 }
             }
         }
         stage("TRIVY Image Scan") {
             steps {
-                sh 'trivy image avian19/tetrisv2:${BUILD_NUMBER} > trivyimage.txt' 
+                sh 'trivy image bhanuprakash678910/tetrisv2:${BUILD_NUMBER} > trivyimage.txt' 
             }
         }
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-DevSecOps-Tetris-Project.git'
+                git branch: 'master', url: 'https://github.com/bhanuprakash678910/e2e-k8s-project1.git'
             }
         }
         stage('Update Deployment file') {
             environment {
-                GIT_REPO_NAME = "End-to-End-Kubernetes-DevSecOps-Tetris-Project"
-                GIT_USER_NAME = "AmanPathak-DevOps"
+                GIT_REPO_NAME = "e2e-k8s-project1.git"
+                GIT_USER_NAME = "bhanuprakash678910"
             }
             steps {
                 dir('Manifest-file') {
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                         sh '''
-                            git config user.email "aman07pathak@gmail.com"
-                            git config user.name "AmanPathak-DevOps"
+                            git config user.email "bhanu@gmail.com"
+                            git config user.name "Bhanu-DevOps"
                             BUILD_NUMBER=${BUILD_NUMBER}
                             echo $BUILD_NUMBER
                             imageTag=$(grep -oP '(?<=tetrisv2:)[^ ]+' deployment-service.yml)
