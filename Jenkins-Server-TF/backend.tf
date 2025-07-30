@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "s3-bucktester-terraform"
+    bucket         = "s3buckk8sproject"
     region         = "us-east-1"
     key            = "e2e-k8s-project1/Jenkins-Server-TF/terraform.tfstate"
-    dynamodb_table = "Lock-Files"
+    dynamodb_table = "s3statefilelock"
     encrypt        = true
   }
   required_version = ">=0.13.0"
